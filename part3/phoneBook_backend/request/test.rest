@@ -1,0 +1,29 @@
+###
+GET http://localhost:3001/api/persons HTTP/1.1
+
+###
+GET http://localhost:3001/info HTTP/1.1
+
+###
+GET http://localhost:3001/api/persons/5 HTTP/1.1
+
+###
+DELETE http://localhost:3001/api/persons/2 HTTP/1.1
+
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Reymer",
+    "number": "5096-54181-2"
+}
+
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "",
+    "number":"1488449"
+}

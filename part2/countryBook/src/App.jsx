@@ -7,12 +7,13 @@ function App() {
   const [filter, setFilter] = useState('');
   const [countries, setCountries] = useState([]);
   const [countriesToShow, setCountriesToShow] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Country service Load');
     setLoading(true);
     countryService.getAll().then((data) => {
+      console.log('Country service Load');
+
       setCountries(data.map((d) => d));
       setLoading(false);
     });

@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import weatherService from '../services/weatherApi.js';
 
 function CountryDetail({ country }) {
   const [weather, setWeather] = useState({ temp: '', wind: '', icon: null });
   const [lat, lon] = country.latlng;
+
   useEffect(() => {
-    console.log('Weather Service load');
     weatherService.getWeather(lat, lon).then((data) => {
+      console.log('Weather Service load');
       setWeather({
         temp: data.main.temp,
         wind: data.wind.speed,
@@ -18,6 +19,7 @@ function CountryDetail({ country }) {
   if (!country) {
     return null;
   }
+
   const languages = country.languages ? Object.values(country.languages) : null;
 
   return (
@@ -29,7 +31,6 @@ function CountryDetail({ country }) {
       </p>
       {languages && (
         <>
-          {' '}
           <h3>Languages: </h3>
           <ul>
             {languages.map((lang) => {

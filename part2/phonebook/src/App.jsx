@@ -35,7 +35,7 @@ function App() {
         .addPerson({
           name: newName,
           number: newNumber,
-          id: (persons.length + 1).toString(),
+          // id: (persons.length + 1).toString(),
         })
         .then((returnedPerson) => {
           setAlertMsg({
@@ -43,6 +43,12 @@ function App() {
             success: true,
           });
           setPersons([...persons, returnedPerson]);
+        })
+        .catch((error) => {
+          setAlertMsg({ message: error.response.data.error, success: false });
+          setTimeout(() => {
+            setAlertMsg({ message: null });
+          }, 3000);
         });
     } else {
       if (personExist.number !== newNumber) {
@@ -65,6 +71,15 @@ function App() {
                   person.id !== returnedPerson.id ? person : returnedPerson
                 )
               );
+            })
+            .catch((error) => {
+              setAlertMsg({
+                message: error.response.data.error,
+                success: false,
+              });
+              setTimeout(() => {
+                setAlertMsg({ message: null });
+              }, 3000);
             });
       } else {
         alert(`${newName} is already added to phonebook`);

@@ -12,7 +12,6 @@ blogRoute.get('/', async (request, response, next) => {
 
 blogRoute.post('/', userExtractor, async (request, response, next) => {
   try {
-    
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' });
@@ -71,5 +70,27 @@ blogRoute.put('/:id', async (request, response, next) => {
     next(error);
   }
 });
+
+blogRoute.post('/:id/comments', async (request,response) => {
+  const id = request.params.id
+  const body = request.body
+  console.log(body);
+  if (!body.comment || body.comment === '') {
+    return response.status(400).json({ error: 'comment is required' })
+  }
+  if (!id) {
+    return response.status(400).json({ error: 'id is required' })
+  }
+  if (body.comment.length < 3) {
+    return response.status(400).json({ error: 'comment must be at least 3 characters'})
+  }
+
+  const blog = await Blog.findById(id)
+
+  blog.comments = blog.comments.concat(body.comment)
+  const result = await blog.save()
+  response.status(200).json(result)
+
+})
 
 module.exports = blogRoute;

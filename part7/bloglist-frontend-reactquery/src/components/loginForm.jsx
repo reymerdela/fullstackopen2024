@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Notification from './Notification'
 import PropTypes from 'prop-types'
 
-const LoginForm = ({ handleSubmit, error }) => {
+const LoginForm = ({ handleSubmit }) => {
   const [loginData, setLoginData] = useState({
     username: '',
     password: '',
@@ -19,7 +19,7 @@ const LoginForm = ({ handleSubmit, error }) => {
   return (
     <div>
       <h1>log in to application</h1>
-      <Notification message={error.message} status={error.status} />
+      <Notification />
       <form
         onSubmit={(e) => {
           setLoginData({ username: '', password: '' })
@@ -54,9 +54,5 @@ const LoginForm = ({ handleSubmit, error }) => {
 
 LoginForm.propTypes = {
   handleSubmit: PropTypes.func,
-  error: PropTypes.shape({
-    message: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
-  }),
 }
 export default LoginForm

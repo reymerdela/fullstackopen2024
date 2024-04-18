@@ -1,3 +1,4 @@
+import { Alert } from '@mui/material'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
@@ -23,9 +24,10 @@ const Notification = () => {
 
 
   return (
-    <div style={style}>
-      <p>{message}</p>
+    <div style={{ position: 'relative' }}>
+      <Alert sx={{ position: 'absolute', right: 0, width: '20%' }} severity={status ? 'success' : 'error'}>{message}</Alert>
     </div>
+
   )
 }
 

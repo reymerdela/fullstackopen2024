@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import LoginForm from './components/loginForm'
 import BlogForm from './components/createForm'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
 import loginServices from './services/login'
 import Toggleable from './components/Toggleable'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,6 +14,7 @@ import User from './components/User'
 import { Link } from 'react-router-dom'
 import BlogView from './components/BlogView'
 import Navigation from './components/Navigation'
+import { Container, Divider, List, ListItem, ListItemButton, Typography } from '@mui/material'
 
 const App = () => {
   const blogRef = useRef()
@@ -22,6 +22,8 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
   const navigate = useNavigate()
+
+  const isHome = useMatch('/')
 
   const math = useMatch('/blogs/:id')
   const blog = math
@@ -96,29 +98,35 @@ const App = () => {
   }
 
   const handleDelete = async (id) => {
-    dispatch(deleteBlogById(id,user.token))
+    const isConfirmed = window.confirm('Desea eliminar la nota?')
+    isConfirmed && dispatch(deleteBlogById(id,user.token))
   }
 
   return (
-    <div>
+    <>
       <Navigation handleLogout={handleLogout} user={user.user} />
-      <h1>Blogs</h1>
-      <Notification />
-      <Routes>
-        <Route path='/users' element={<Users/>}/>
-        <Route path='/users/:id' element={<User />}/>
-        <Route path='/' element={
-          <div>
-            {blogs.map(blog => (
-              <div key={blog.id}>
-                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-              </div>
-            ))}
-          </div>
-        }/>
-        <Route path='/blogs/:id' element={<BlogView handleDelete={handleDelete} handleLike={handleLike} user={user} blog={blog} />} />
-      </Routes>
-    </div>
+      <Container maxWidth="lg">
+        <Notification />
+        <Typography variant='h3' my={2} component="h1">Blogs</Typography>
+        { isHome && newBlogForm()}
+        <Divider/>
+        <Routes>
+          <Route path='/users' element={<Users/>}/>
+          <Route path='/users/:id' element={<User />}/>
+          <Route path='/' element={
+            <List sx={{ marginY: '10px' }}>
+              {blogs.map(blog => (
+                <ListItem key={blog.id} disablePadding>
+                  <ListItemButton component={Link} to={`/blogs/${blog.id}`}>{blog.title}</ListItemButton>
+                  {/* <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> */}
+                </ListItem>
+              ))}
+            </List>
+          }/>
+          <Route path='/blogs/:id' element={<BlogView handleDelete={handleDelete} handleLike={handleLike} user={user} blog={blog} />} />
+        </Routes>
+      </Container>
+    </>
   )
 }
 

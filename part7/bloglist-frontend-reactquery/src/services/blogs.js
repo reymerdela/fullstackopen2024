@@ -7,7 +7,7 @@ const getAll = async () => {
   return request.data
 }
 
-const createBlog = async (data, token) => {
+const createBlog = async ({ data, token }) => {
   try {
     const response = await axios.post(baseUrl, data, {
       headers: {
@@ -21,7 +21,8 @@ const createBlog = async (data, token) => {
   }
 }
 
-const updateBlog = async (data, token, id) => {
+const updateBlog = async ({ data, token, blogId:id }) => {
+
   try {
     const response = await axios.put(`${baseUrl}/${id}`, data, {
       headers: {
@@ -34,7 +35,7 @@ const updateBlog = async (data, token, id) => {
   }
 }
 
-const deleteBlog = async (id, token) => {
+const deleteBlog = async ({ id, token }) => {
   console.log(id, token)
   try {
     const response = await axios.delete(`${baseUrl}/${id}`, {
@@ -47,4 +48,8 @@ const deleteBlog = async (id, token) => {
     return error
   }
 }
-export default { getAll, createBlog, updateBlog, deleteBlog }
+
+const addComment = async ({ id,comment }) => {
+  await axios.post(`${baseUrl}/${id}/comments`,{ comment })
+}
+export default { getAll, createBlog, updateBlog, deleteBlog,addComment }

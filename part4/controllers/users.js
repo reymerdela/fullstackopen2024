@@ -15,6 +15,20 @@ userRouter.get('/', async (request, response, next) => {
   }
 });
 
+userRouter.get('/:id', async (request,response,next) => {
+  const id = request.params.id
+  try {
+    const user = await User.findById(id).populate('blogs', {
+      url: 1,
+      title: 1,
+      author: 1,
+    });
+    response.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
 userRouter.post('/', async (request, response, next) => {
   const { username, name, password } = request.body;
   if (!password || password.length < 3) {

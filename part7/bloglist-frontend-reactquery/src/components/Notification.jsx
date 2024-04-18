@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import NotificationContext from '../reducers/noticationContext'
 
-const Notification = ({ message, status = false }) => {
+const Notification = () => {
+  const [{ message,status }] = useContext(NotificationContext)
   if (!message) {
     return null
   }

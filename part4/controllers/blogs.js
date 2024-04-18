@@ -76,13 +76,13 @@ blogRoute.post('/:id/comments', async (request,response) => {
   const body = request.body
   console.log(body);
   if (!body.comment || body.comment === '') {
-    return response.status(400).json({ error: 'comment is required' })
+    return response.status(401).json({ error: 'comment is required' })
   }
   if (!id) {
-    return response.status(400).json({ error: 'id is required' })
+    return response.status(401).json({ error: 'id is required' })
   }
   if (body.comment.length < 3) {
-    return response.status(400).json({ error: 'comment must be at least 3 characters'})
+    return response.status(401).json({ error: 'comment must be at least 3 characters'})
   }
 
   const blog = await Blog.findById(id)

@@ -38,7 +38,7 @@ export const addNewBlog = (blog,token,user) => {
       ...result.data,
       user: {
         id: result.data.user,
-        username: user
+        username: user.user
       }
     }
     dispatch(add(newBlog))
